@@ -1,16 +1,24 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ViewBlog from './ViewBlog';
 
 export default function BlogList() {
   const [blogList, setBlogList] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
   const navigate = useNavigate();
+
+  const closeModal = () => setShowModal(false);
+
   useEffect(() => {
     getData();
   }, []);
+
   const getData = async () => {
+    console.log(blogList);
     try {
-      const response = await axios.get("http://localhost:8080/api/blog");
+      const response = await axios.get('http://localhost:8080/api/blog');
       if (response && response.data && response.data.status === 200) {
         setBlogList(response.data.data);
       }
@@ -24,8 +32,7 @@ export default function BlogList() {
       const response = axios
         .delete(`http://localhost:8080/api/blog/${_id}`)
         .then(() => getData());
-      alert("Form deleted successfully!");
-      console.log("Backend Response:", response.data.data);
+      alert('Form deleted successfully!');
       setBlogList(blogList.filter((data) => data._id !== _id));
     } catch (error) {
       console.log(error);
@@ -34,6 +41,7 @@ export default function BlogList() {
 
   return (
     <div className="m-4">
+      {showModal && <ViewBlog closeModal={closeModal} id={modalData.id} />}
       <table className="text-black w-full border border-blue-400">
         <thead>
           <tr>
@@ -72,7 +80,13 @@ export default function BlogList() {
                   {new Date(data.updatedAt).toLocaleString()}
                 </td>
                 <td className="border border-blue-400 px-4 py-2">
-                  <button className="text-white bg-green-500 px-2 py-1 rounded">
+                  <button
+                    onClick={() => {
+                      setModalData(data);
+                      setShowModal(true);
+                    }}
+                    className="text-white bg-green-500 px-2 py-1 rounded"
+                  >
                     View
                   </button>
                 </td>

@@ -1,16 +1,16 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function EditBlog() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    tags: "",
-    writer: "",
+    title: '',
+    content: '',
+    tags: '',
+    writer: ''
   });
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function EditBlog() {
         );
         setFormData(response.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
     fetchData();
@@ -34,18 +34,18 @@ export default function EditBlog() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("ID:", id);
+    console.log(formData);
     try {
       const response = await axios.put(
         `http://localhost:8080/api/blog/${id}`,
         formData
       );
-      console.log("Response:", response.data.data);
-      alert("Blog updated successfully!");
-      navigate("/");
+      console.log('Response:', response.data.data);
+      alert('Blog updated successfully!');
+      navigate('/');
     } catch (error) {
-      console.error("Error updating blog:", error);
-      alert("Error updating blog.");
+      console.error('Error updating blog:', error);
+      alert('Error updating blog.');
     }
   };
 
@@ -104,7 +104,7 @@ export default function EditBlog() {
           </button>
           <button
             type="submit"
-            onClick={() => navigate("/")}
+            onClick={() => navigate('/')}
             className="border border-black rounded px-4 py-2 text-white font-bold bg-blue-500"
           >
             Back

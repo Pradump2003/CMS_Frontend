@@ -1,15 +1,31 @@
-
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function AddBlog() {
+  const { id } = useParams();
   const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    tags: "",
-    writer: "",
+    title: '',
+    content: '',
+    tags: '',
+    writer: ''
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/blog/${id}`
+        );
+        setFormData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -17,29 +33,34 @@ export default function AddBlog() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Testing 1", formData);
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/blog",
-        formData
-      );
-      if (response.status === 200 || response.status === 201) {
-        alert("Form submitted successfully!");
-        console.log("Backend Response:", response.data);
-        setFormData(formData);
-        navigate("/");
+      let response;
+      if (id) {
+        response = await axios.put(
+          `http://localhost:8080/api/blog/${id}`,
+          formData
+        );
       } else {
-        alert("Failed to submit form!");
+        response = await axios.post('http://localhost:8080/api/blog', formData);
+      }
+      if (response.status === 200 || response.status === 201) {
+        const msg = id
+          ? 'Blog updated successfully!'
+          : 'Blog Created successfully!';
+        alert(msg);
+        navigate('/');
+      } else {
+        alert('Failed to submit form!');
       }
     } catch (error) {
-      console.error("Error connecting to backend:", error);
-      alert("An error occurred while submitting the form.");
+      console.error('Error connecting to backend:', error);
+      alert('An error occurred while submitting the form.');
     }
   };
 
@@ -97,11 +118,11 @@ export default function AddBlog() {
             onClick={handleSubmit}
             className="border border-black rounded px-4 py-2 text-white font-bold bg-blue-500"
           >
-            Submit
+            {id ? 'Update' : 'Submit'}
           </button>
           <button
             type="submit"
-            onClick={() => navigate("/")}
+            onClick={() => navigate('/')}
             className="border border-black rounded px-4 py-2 text-white font-bold bg-blue-500"
           >
             Back
