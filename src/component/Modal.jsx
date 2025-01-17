@@ -24,13 +24,13 @@ export default function Modal({
         onClick={closeModel}
       >
         <div
-          className="relative w-full max-w-md p-6 bg-white rounded-lg shadow-lg"
+          className="relative w-full max-w-md p-6 bg-white border-2 border-black rounded-lg shadow-lg"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="pb-6"> {children}</div>
           <div>
             <button
-              className="text-white bg-blue-500 px-2 py-1 rounded"
+              className="text-white bg-blue-500 px-6 py-1 rounded"
               onClick={btnClickHandling}
             >
               {btnLabel}
