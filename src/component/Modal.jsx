@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import BgImage from '../assets/BgImage.jpg';
 
 export default function Modal({
   closeModel,
@@ -24,6 +25,7 @@ export default function Modal({
         onClick={closeModel}
       >
         <div
+          style={{ backgroundImage: `url(${BgImage})` }}
           className="relative w-full max-w-md p-6 bg-white border-2 border-black rounded-lg shadow-lg"
           onClick={(e) => e.stopPropagation()}
         >
