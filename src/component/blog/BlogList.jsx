@@ -12,6 +12,9 @@ export default function BlogList() {
   const [searchInput, setSearchInput] = useState('');
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortField, setSortField] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [filters, setFilters] = useState({});
   const navigate = useNavigate();
 
   const closeModal = () => setShowModal(false);
@@ -21,7 +24,14 @@ export default function BlogList() {
       try {
         const response = await axios.get(
           `http://localhost:8080/api/blog?page=${currentPage}&limit=7`,
-          { params: { search} }
+          {
+            params: {
+              search,
+              sortField,
+              sortOrder,
+              filters: JSON.stringify(filters)
+            }
+          }
         );
         setBlogList(response.data.data);
         setTotalPages(response.data.totalPages);
@@ -30,7 +40,23 @@ export default function BlogList() {
       }
     }
     getData();
-  }, [search, currentPage]);
+  }, [search, currentPage, sortField, sortOrder, filters]);
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('asc');
+    }
+  };
+
+  const getSortIndicator = (field) => {
+    if (sortField === field) {
+      return sortOrder === 'asc' ? '🔼' : '🔽';
+    }
+    return '⬍';
+  };
 
   const handleDelete = async (_id) => {
     try {
@@ -85,12 +111,42 @@ export default function BlogList() {
       <table className="text-black w-full overflow-hidden border-2 border-blue-500">
         <thead>
           <tr>
-            <th className="border border-blue-400 px-4 py-2"> Title </th>
-            <th className="border border-blue-400 px-4 py-2"> Content </th>
-            <th className="border border-blue-400 px-4 py-2"> Tags </th>
-            <th className="border border-blue-400 px-4 py-2"> Writer </th>
-            <th className="border border-blue-400 px-4 py-2"> Created_at </th>
-            <th className="border border-blue-400 px-4 py-2"> Updated_at </th>
+            <th
+              onClick={() => handleSort('title')}
+              className="border border-blue-400 px-4 py-2 cursor-pointer"
+            >
+              Title {getSortIndicator('title')}
+            </th>
+            <th
+              onClick={() => handleSort('content')}
+              className="border border-blue-400 px-4 py-2 cursor-pointer"
+            >
+              Content {getSortIndicator('content')}
+            </th>
+            <th
+              onClick={() => handleSort('tags')}
+              className="border border-blue-400 px-4 py-2 cursor-pointer"
+            >
+              Tags {getSortIndicator('tags')}
+            </th>
+            <th
+              onClick={() => handleSort('writer')}
+              className="border border-blue-400 px-4 py-2 cursor-pointer"
+            >
+              Writer {getSortIndicator('writer')}
+            </th>
+            <th
+              onClick={() => handleSort('created_at')}
+              className="border border-blue-400 px-4 py-2 cursor-pointer"
+            >
+              Created_at {getSortIndicator('created_at')}
+            </th>
+            <th
+              onClick={() => handleSort('updated_at')}
+              className="border border-blue-400 px-4 py-2 cursor-pointer"
+            >
+              Updated_at {getSortIndicator('updated_at')}
+            </th>
             <th className="border border-blue-400 px-4 py-2"> View Blogs</th>
             <th className="border border-blue-400 px-4 py-2"> Edit Blog</th>
             <th className="border border-blue-400 px-4 py-2"> Delete Blogs</th>
