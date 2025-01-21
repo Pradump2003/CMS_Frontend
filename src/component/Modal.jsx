@@ -32,7 +32,7 @@ export default function Modal({
           <div className="pb-6"> {children}</div>
           <div>
             <button
-              className="text-white bg-blue-500 px-6 py-1 rounded"
+              className="text-white bg-blue-500 px-6 py-1 rounded font-serif hover:bg-blue-700"
               onClick={btnClickHandling}
             >
               {btnLabel}

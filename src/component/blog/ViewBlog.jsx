@@ -4,9 +4,9 @@ import Modal from '../Modal';
 export default function ViewBlog({ closeModal, modalData }) {
   return (
     <Modal closeModel={closeModal}>
-      <h1 className="font-bold text-xl text-black my-4"> Blog </h1>
+      <h1 className="font-bold text-xl text-black my-4 font-serif"> Blog </h1>
       <div className="overflow-auto border-2 rounded-lg border-black">
-        <table className="text-black w-full">
+        <table className="text-black w-full font-serif">
           <thead>
             <tr>
               <th className="border border-black px-4 py-2 ">

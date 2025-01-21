@@ -55,7 +55,7 @@ export default function BlogList() {
     if (sortField === field) {
       return sortOrder === 'asc' ? '🔼' : '🔽';
     }
-    return '⬍';
+    return '⬍'; 
   };
 
   const handleDelete = async (_id) => {
@@ -109,43 +109,25 @@ export default function BlogList() {
         />
       </div>
       <table className="text-black w-full overflow-hidden border-2 border-blue-500">
-        <thead>
+        <thead className='font-serif'>
           <tr>
-            <th
-              onClick={() => handleSort('title')}
-              className="border border-blue-400 px-4 py-2 cursor-pointer"
-            >
+            <th onClick={() => handleSort('title')} className="border border-blue-400 px-4 py-2 cursor-pointer">
               Title {getSortIndicator('title')}
             </th>
-            <th
-              onClick={() => handleSort('content')}
-              className="border border-blue-400 px-4 py-2 cursor-pointer"
-            >
+            <th onClick={() => handleSort('content')} className="border border-blue-400 px-4 py-2 cursor-pointer">
               Content {getSortIndicator('content')}
             </th>
-            <th
-              onClick={() => handleSort('tags')}
-              className="border border-blue-400 px-4 py-2 cursor-pointer"
-            >
+            <th onClick={() => handleSort('tags')} className="border border-blue-400 px-4 py-2 cursor-pointer">
               Tags {getSortIndicator('tags')}
             </th>
-            <th
-              onClick={() => handleSort('writer')}
-              className="border border-blue-400 px-4 py-2 cursor-pointer"
-            >
+            <th onClick={() => handleSort('writer')} className="border border-blue-400 px-4 py-2 cursor-pointer">
               Writer {getSortIndicator('writer')}
             </th>
-            <th
-              onClick={() => handleSort('created_at')}
-              className="border border-blue-400 px-4 py-2 cursor-pointer"
-            >
-              Created_at {getSortIndicator('created_at')}
+            <th onClick={() => handleSort('createdAt')} className="border border-blue-400 px-4 py-2 cursor-pointer">
+              Created_at {getSortIndicator('createdAt')}
             </th>
-            <th
-              onClick={() => handleSort('updated_at')}
-              className="border border-blue-400 px-4 py-2 cursor-pointer"
-            >
-              Updated_at {getSortIndicator('updated_at')}
+            <th onClick={() => handleSort('updatedAt')} className="border border-blue-400 px-4 py-2 cursor-pointer">
+              Updated_at {getSortIndicator('updatedAt')}
             </th>
             <th className="border border-blue-400 px-4 py-2"> View Blogs</th>
             <th className="border border-blue-400 px-4 py-2"> Edit Blog</th>

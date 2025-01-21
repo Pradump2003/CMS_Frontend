@@ -12,7 +12,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-3 py-1 border rounded mx-1 bg-white text-black disabled:opacity-50"
+        className="px-3 py-1 border rounded mx-1 bg-blue-500 hover:bg-blue-800 text-white disabled:opacity-50 font-serif"
       >
         Prev
       </button>
@@ -21,7 +21,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
           key={index + 1}
           onClick={() => handlePageChange(index + 1)}
           disabled={currentPage === index + 1}
-          className={`px-3 py-1 border rounded mx-1 ${
+          className={`px-3 py-1 border rounded mx-1 font-serif ${
             currentPage === index + 1
               ? 'bg-blue-500 text-white'
               : 'bg-white text-black'
@@ -33,7 +33,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-3 py-1 border rounded mx-1 bg-white text-black disabled:opacity-50"
+        className="px-3 py-1 border rounded mx-1 bg-blue-500 text-white font-serif hover:bg-blue-800 disabled:opacity-50"
       >
         Next
       </button>

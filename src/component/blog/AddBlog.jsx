@@ -66,7 +66,7 @@ export default function AddBlog() {
       <form onSubmit={handleSubmit(onSubmit)} className=" max-w-md mx-auto">
         <div style={{ backgroundImage: `url(${BgImage})` }} className="w-full grid items-center border-2 border-black rounded-md m-10 text-black p-8 gap-4 ">
           <div className="grid">
-            <p className=" font-bold">Title* </p>
+            <p className=" font-bold font-serif">Title* </p>
             <input
               type="text"
               placeholder="Enter title "
@@ -86,7 +86,7 @@ export default function AddBlog() {
             )}
           </div>
           <div className="grid gap-1">
-            <p className="font-bold"> Content* </p>
+            <p className="font-bold font-serif"> Content* </p>
             <textarea
               placeholder="Enter content"
               className={`bg-gray-100 text-black border-2 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 focus:shadow-[0_4px_6px_rgba(0,0,255,0.7)] ${
@@ -104,7 +104,7 @@ export default function AddBlog() {
             <p className="text-red-500">{errors.content.message}</p>
           )}
           <div className="grid gap-1">
-            <p className="font-bold">Tags*</p>
+            <p className="font-bold font-serif">Tags*</p>
             <input
               type="text"
               placeholder="Enter Tags"
@@ -124,7 +124,7 @@ export default function AddBlog() {
             )}
           </div>
           <div className="grid gap-1">
-            <p className="font-bold">Writer*</p>
+            <p className="font-bold font-serif">Writer*</p>
             <input
               type="text"
               name="writer"
@@ -146,7 +146,7 @@ export default function AddBlog() {
             <div>
               <button
                 type="submit"
-                className="w-full border border-black rounded py-2 text-white font-bold bg-blue-500 hover:bg-blue-800"
+                className="w-full border border-black rounded py-2 text-white font-bold bg-blue-500 hover:bg-blue-800 font-serif"
               >
                 {id ? 'Update' : 'Submit'}
               </button>
@@ -155,7 +155,7 @@ export default function AddBlog() {
               <button
                 type="submit"
                 onClick={() => navigate('/')}
-                className="w-full border border-black rounded py-2 text-white font-bold bg-blue-500 hover:bg-blue-800"
+                className="w-full border border-black rounded py-2 text-white font-bold bg-blue-500 hover:bg-blue-800 font-serif"
               >
                 Back
               </button>
