@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ViewBlog from './ViewBlog';
 import Pagination from '../Pagination';
-
 
 export default function BlogList() {
   const [blogList, setBlogList] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
@@ -19,7 +20,8 @@ export default function BlogList() {
     async function getData() {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/blog?page=${currentPage}&limit=8`
+          `http://localhost:8080/api/blog?page=${currentPage}&limit=7`,
+          { params: { search} }
         );
         setBlogList(response.data.data);
         setTotalPages(response.data.totalPages);
@@ -28,7 +30,7 @@ export default function BlogList() {
       }
     }
     getData();
-  }, [currentPage]);
+  }, [search, currentPage]);
 
   const handleDelete = async (_id) => {
     try {
@@ -46,9 +48,40 @@ export default function BlogList() {
     setCurrentPage(page);
   };
 
+  const debounce = (func, delay) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const handleDebouncedSearch = useCallback(
+    debounce((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchInput(value);
+    handleDebouncedSearch(value);
+  };
+
   return (
     <div className="m-4">
       {showModal && <ViewBlog closeModal={closeModal} modalData={modalData} />}
+      <div className="grid grid-cols-4 justify-start">
+        <input
+          type="text"
+          name="search"
+          placeholder="Search"
+          value={searchInput}
+          className="bg-white items-center mb-2 py-1 px-2 border-2 border-blue-500 rounded-md text-black"
+          onChange={handleSearchChange}
+        />
+      </div>
       <table className="text-black w-full overflow-hidden border-2 border-blue-500">
         <thead>
           <tr>
@@ -64,8 +97,7 @@ export default function BlogList() {
           </tr>
         </thead>
         <tbody>
-          {blogList &&
-            blogList.length &&
+          {blogList && blogList.length ? (
             blogList.map((data, index) => (
               <tr key={index}>
                 <td className="border border-blue-400 px-4 py-2">
@@ -92,7 +124,7 @@ export default function BlogList() {
                       setModalData(data);
                       setShowModal(true);
                     }}
-                    className="text-white bg-green-500  hover:bg-green-700 px-4 py-1 rounded hover:ring-2 hover:ring-blue-500"
+                    className="text-white bg-blue-500  hover:bg-blue-700 px-4 py-1 rounded font-serif"
                   >
                     View
                   </button>
@@ -100,7 +132,7 @@ export default function BlogList() {
                 <td className="border border-blue-400 px-4 py-2 text-center">
                   <button
                     onClick={() => navigate(`/edit-blog/${data._id}`)}
-                    className="text-white bg-green-500 px-4 py-1 rounded"
+                    className="text-white bg-green-500 px-4 py-1 rounded font-serif hover:bg-green-700"
                   >
                     Edit
                   </button>
@@ -108,13 +140,18 @@ export default function BlogList() {
                 <td className="border border-blue-400 px-4 py-2 text-center">
                   <button
                     onClick={() => handleDelete(data._id)}
-                    className="text-white bg-red-500 px-2 py-1 rounded"
+                    className="text-white bg-red-500 px-2 py-1 rounded font-serif hover:bg-red-700"
                   >
                     Delete
                   </button>
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <span>No data found</span>
+            </tr>
+          )}
         </tbody>
       </table>
       <Pagination
